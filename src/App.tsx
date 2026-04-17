@@ -5,7 +5,7 @@ import NewRequest from './pages/NewRequest';
 import AdminPanel from './pages/AdminPanel';
 import Profile from './pages/Profile';
 import RequestDetail from './pages/RequestDetail';
-import RequestType from './types/RequestType';
+
 
 function App() {
   return (
