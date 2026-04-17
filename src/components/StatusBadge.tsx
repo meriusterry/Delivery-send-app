@@ -1,25 +1,33 @@
-import { RequestStatus } from '../types';
 import { Clock, CheckCircle, Package, Truck } from 'lucide-react';
 
+type RequestStatus = 'pending' | 'approved' | 'collected' | 'delivered';
+
 interface StatusBadgeProps {
-  status: RequestStatus;
+    status: RequestStatus;
+    size?: 'sm' | 'md' | 'lg';
 }
 
-const statusConfig: Record<RequestStatus, { color: string; icon: any; label: string }> = {
-  pending: { color: 'bg-yellow-100 text-yellow-800', icon: Clock, label: 'Pending' },
-  approved: { color: 'bg-blue-100 text-blue-800', icon: CheckCircle, label: 'Approved' },
-  collected: { color: 'bg-purple-100 text-purple-800', icon: Package, label: 'Collected' },
-  delivered: { color: 'bg-green-100 text-green-800', icon: Truck, label: 'Delivered' }
+const statusConfig: Record<RequestStatus, { color: string; icon: any; label: string; bgColor: string }> = {
+    pending: { color: 'text-yellow-800', icon: Clock, label: 'Pending', bgColor: 'bg-yellow-100' },
+    approved: { color: 'text-blue-800', icon: CheckCircle, label: 'Approved', bgColor: 'bg-blue-100' },
+    collected: { color: 'text-purple-800', icon: Package, label: 'Collected', bgColor: 'bg-purple-100' },
+    delivered: { color: 'text-green-800', icon: Truck, label: 'Delivered', bgColor: 'bg-green-100' }
 };
 
-export default function StatusBadge({ status }: StatusBadgeProps) {
-  const config = statusConfig[status];
-  const Icon = config.icon;
+const sizeClasses = {
+    sm: 'px-2 py-0.5 text-xs',
+    md: 'px-2.5 py-1 text-sm',
+    lg: 'px-3 py-1.5 text-base'
+};
 
-  return (
-    <span className={`px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${config.color}`}>
-      <Icon size={12} />
-      {config.label}
-    </span>
-  );
+export default function StatusBadge({ status, size = 'md' }: StatusBadgeProps) {
+    const config = statusConfig[status];
+    const Icon = config.icon;
+
+    return (
+        <span className={`inline-flex items-center gap-1.5 rounded-full font-semibold ${config.bgColor} ${config.color} ${sizeClasses[size]}`}>
+            <Icon size={size === 'sm' ? 12 : size === 'md' ? 14 : 16} />
+            {config.label}
+        </span>
+    );
 }
